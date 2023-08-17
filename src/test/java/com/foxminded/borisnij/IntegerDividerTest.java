@@ -1,5 +1,6 @@
 package com.foxminded.borisnij;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,7 +35,8 @@ class IntegerDividerTest {
 
     @ParameterizedTest
     @MethodSource("testData")
-    void testDivide(int dividend, int divisor, List<IntegerDivisionStep> expectedSteps) {
+    @DisplayName("When provided with valid dividend and divisor should return correct division steps")
+    void whenProvidedWithValidDividendAndDivisorShouldReturnCorrectDivisionSteps(int dividend, int divisor, List<IntegerDivisionStep> expectedSteps) {
         IntegerDivider divider = new IntegerDivider();
         List<IntegerDivisionStep> actualSteps = divider.divide(dividend, divisor);
 
