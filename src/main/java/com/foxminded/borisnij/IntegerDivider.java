@@ -12,7 +12,7 @@ public class IntegerDivider {
 
         for (int i = 0; i < dividendStr.length(); i++) {
             int dividendDigit = Character.getNumericValue(dividendStr.charAt(i));
-            partialDividend = partialDividend * 10 + dividendDigit;
+            partialDividend = (partialDividend << 3) + (partialDividend << 1) + dividendDigit;
 
             if (partialDividend >= divisor) {
                 int quotientDigit = partialDividend / divisor;
