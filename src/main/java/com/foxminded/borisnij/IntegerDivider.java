@@ -3,10 +3,10 @@ package com.foxminded.borisnij;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LongDivider {
+public class IntegerDivider {
 
-    public List<DivisionStep> divide(int dividend, int divisor) {
-        List<DivisionStep> steps = new ArrayList<>();
+    public List<IntegerDivisionStep> divide(int dividend, int divisor) {
+        List<IntegerDivisionStep> steps = new ArrayList<>();
 
         String dividendStr = String.valueOf(dividend);
         int partialDividend = 0;
@@ -18,12 +18,14 @@ public class LongDivider {
             if (partialDividend >= divisor) {
                 int quotientDigit = partialDividend / divisor;
                 int divisorMultiple = quotientDigit * divisor;
-                steps.add(new DivisionStep(partialDividend, divisorMultiple, Character.forDigit(quotientDigit, 10)));
+                steps.add(new IntegerDivisionStep(partialDividend,
+                                                  divisorMultiple,
+                                                  Character.forDigit(quotientDigit, 10)));
 
                 partialDividend -= divisorMultiple;
             }
         }
-        steps.add(new DivisionStep(partialDividend, 0, '\0'));
+        steps.add(new IntegerDivisionStep(partialDividend, 0, '\0'));
         return steps;
     }
 }

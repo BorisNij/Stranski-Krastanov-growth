@@ -2,41 +2,47 @@ package com.foxminded.borisnij;
 
 import java.util.List;
 
-public class LongDivisionReporter {
+public class IntegerDivisionFormatter {
+    private String formattedSolution = "";
 
-    private static String getLeftPadding(String partialDividendStr, String divisorMultipleStr) {
+
+    private String getLeftPadding(String partialDividendStr, String divisorMultipleStr) {
         return " ".repeat(partialDividendStr.length() - divisorMultipleStr.length() + 1);
     }
 
-    private static String getRightPadding(int dividend, String partialDividendStr) {
-        final String dividendStr = String.valueOf(dividend);
-        final String secondLineFormat = "%" + (partialDividendStr.length() + 1) + "d" + "%" + (dividendStr.length() - partialDividendStr.length()) + "s";
-//                divisionSolution.append(String.format(secondLineFormat,
-//                                                      divisionStep.getDivisorMultiple(),
-//                                                      "|" + "-".repeat(quotientLength))).append("\n");
-        final String rightPadding = " ".repeat(dividendStr.length() - partialDividendStr.length());
-        return rightPadding;
+    private String getRightPadding(int dividend, String partialDividendStr) {
+        return " ".repeat(java.lang.String.valueOf(dividend).length() - partialDividendStr.length());
     }
 
-    public void report(int dividend, int divisor, List<DivisionStep> divisionSteps) {
+    public String format(IntegerDivisionExpression integerDivisionExpression) {
+        if (formattedSolution.length() != 0) {
+            return formattedSolution;
+        }
+        final int dividend = integerDivisionExpression.getDividend();
+        final int divisor = integerDivisionExpression.getDivisor();
+        final List<IntegerDivisionStep> integerDivisionSteps = integerDivisionExpression.getDivisionSteps();
+
         final StringBuilder divisionSolution = new StringBuilder();
         divisionSolution.append("_").append(dividend).append("|").append(divisor).append("\n");
 
-        final int quotientLength = divisionSteps.size() - 1;
+        final int quotientLength = integerDivisionSteps.size() - 1;
         final StringBuilder quotient = new StringBuilder(quotientLength);
-        divisionSteps.stream().map(DivisionStep::getQuotientDigit).limit(quotientLength).forEach(quotient::append);
+        integerDivisionSteps.stream()
+                .map(IntegerDivisionStep::getQuotientDigit)
+                .limit(quotientLength)
+                .forEach(quotient::append);
 
         StringBuilder nextLeftPadding = new StringBuilder(String.valueOf(dividend).length());
-        for (int i = 0; i < divisionSteps.size(); i++) {
-            final DivisionStep divisionStep = divisionSteps.get(i);
-            final String partialDividendStr = String.valueOf(divisionStep.getPartialDividend());
-            final String divisorMultipleStr = String.valueOf(divisionStep.getDivisorMultiple());
+        for (int i = 0; i < integerDivisionSteps.size(); i++) {
+            final IntegerDivisionStep integerDivisionStep = integerDivisionSteps.get(i);
+            final String partialDividendStr = String.valueOf(integerDivisionStep.getPartialDividend());
+            final String divisorMultipleStr = String.valueOf(integerDivisionStep.getDivisorMultiple());
 
             if (i == 0) {
                 final String rightPadding = getRightPadding(dividend, partialDividendStr);
                 final String leftPadding = getLeftPadding(partialDividendStr, divisorMultipleStr);
                 divisionSolution.append(leftPadding)
-                        .append(divisionStep.getDivisorMultiple())
+                        .append(integerDivisionStep.getDivisorMultiple())
                         .append(rightPadding)
                         .append("|")
                         .append("-".repeat(quotientLength))
@@ -50,17 +56,17 @@ public class LongDivisionReporter {
                 nextLeftPadding.append(leftPadding)
                         .append(" ".repeat(divisorMultipleStr.length()))
                         .setLength(nextLeftPadding.length() - 2);
-            } else if (divisionStep.getQuotientDigit() == '\0') {
+            } else if (integerDivisionStep.getQuotientDigit() == '\0') {
                 divisionSolution.append(nextLeftPadding)
-                        .append(divisionStep.getPartialDividend());
+                        .append(integerDivisionStep.getPartialDividend());
             } else {
                 divisionSolution.append(nextLeftPadding)
                         .append("_")
-                        .append(divisionStep.getPartialDividend())
+                        .append(integerDivisionStep.getPartialDividend())
                         .append("\n");
                 divisionSolution.append(nextLeftPadding)
                         .append(" ")
-                        .append(divisionStep.getDivisorMultiple())
+                        .append(integerDivisionStep.getDivisorMultiple())
                         .append("\n");
                 divisionSolution.append(nextLeftPadding)
                         .append(" ")
@@ -69,9 +75,10 @@ public class LongDivisionReporter {
                 nextLeftPadding.append(" ".repeat(divisorMultipleStr.length()));
             }
         }
-        if (divisionSteps.size() == 1) {
-            divisionSolution.append(" ").append(divisionSteps.get(0).getPartialDividend());
+        if (integerDivisionSteps.size() == 1) {
+            divisionSolution.append(" ").append(integerDivisionSteps.get(0).getPartialDividend());
         }
-        System.out.println(divisionSolution);
+        this.formattedSolution = divisionSolution.toString();
+        return divisionSolution.toString();
     }
 }
