@@ -6,7 +6,22 @@ import java.util.List;
 public class IntegerDivider {
 
     public List<IntegerDivisionStep> divide(int dividend, int divisor) {
+        if (divisor < 1) {
+            throw new IllegalArgumentException("Negative or zero divisor not allowed");
+        }
+
+        if (dividend < 0) {
+            throw new IllegalArgumentException("Negative dividend not allowed");
+        }
+
         List<IntegerDivisionStep> steps = new ArrayList<>();
+
+        if (dividend == 0) {
+            updateSteps(steps, 0, 0, '0');
+            updateSteps(steps, 1, 0, '\0');
+            return steps;
+        }
+
         String dividendStr = String.valueOf(dividend);
         int partialDividend = 0;
 
