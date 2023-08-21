@@ -3,44 +3,72 @@ package com.foxminded.borisnij;
 import java.util.Objects;
 
 public class IntegerDivisionStep {
-	private final int partialDividend;
-	private final int divisorMultiple;
-	private final char quotientDigit;
+    private final int partialDividend;
+    private final int rightmostPartialDividendDigitIndex;
+    private final int divisorMultiple;
+    private final char quotientDigit;
 
-	public IntegerDivisionStep(int partialDividend, int divisorMultiple, char quotientDigit) {
-		this.partialDividend = partialDividend;
-		this.divisorMultiple = divisorMultiple;
-		this.quotientDigit = quotientDigit;
-	}
 
-	public int getPartialDividend() {
-		return partialDividend;
-	}
+    public IntegerDivisionStep(int partialDividend,
+                               int divisorMultiple,
+                               char quotientDigit,
+                               int rightmostPartialDividendDigitIndex) {
+        this.partialDividend = partialDividend;
+        this.rightmostPartialDividendDigitIndex = rightmostPartialDividendDigitIndex;
+        this.divisorMultiple = divisorMultiple;
+        this.quotientDigit = quotientDigit;
+    }
 
-	public int getDivisorMultiple() {
-		return divisorMultiple;
-	}
+    public IntegerDivisionStep(int partialDividend, int divisorMultiple, char quotientDigit) {
+        this(partialDividend, divisorMultiple, quotientDigit, -1);
+    }
 
-	public char getQuotientDigit() {
-		return quotientDigit;
-	}
+    public IntegerDivisionStep(IntegerDivisionStep other) {
+        this(other.getPartialDividend(),
+             other.getDivisorMultiple(),
+             other.getQuotientDigit(),
+             other.getRightmostPartialDividendDigitIndex();
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		IntegerDivisionStep that = (IntegerDivisionStep) o;
-		return partialDividend == that.partialDividend && divisorMultiple == that.divisorMultiple && quotientDigit == that.quotientDigit;
-	}
+    public int getPartialDividend() {
+        return partialDividend;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(partialDividend, divisorMultiple, quotientDigit);
-	}
+    public int getDivisorMultiple() {
+        return divisorMultiple;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("\n{partialDividend=%d,\ndivisorMultiple=%d,\nquotientDigit='%c'}",
-							 partialDividend, divisorMultiple, quotientDigit);
-	}
+    public char getQuotientDigit() {
+        return quotientDigit;
+    }
+
+    public int getRightmostPartialDividendDigitIndex() {
+        return rightmostPartialDividendDigitIndex;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IntegerDivisionStep that = (IntegerDivisionStep) o;
+        return partialDividend == that.partialDividend &&
+                rightmostPartialDividendDigitIndex == that.rightmostPartialDividendDigitIndex &&
+                divisorMultiple == that.divisorMultiple &&
+                quotientDigit == that.quotientDigit;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(partialDividend, rightmostPartialDividendDigitIndex, divisorMultiple, quotientDigit);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "\n{partialDividend=%d,\nrightmostPartialDividendDigitIndex=%d\ndivisorMultiple=%d,\nquotientDigit='%c'}",
+                partialDividend,
+                rightmostPartialDividendDigitIndex,
+                divisorMultiple,
+                quotientDigit);
+    }
 }
