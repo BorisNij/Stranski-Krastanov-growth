@@ -3,38 +3,10 @@ package com.foxminded.borisnij;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: refactor by splitting into DivisionStepCalculationService and
-// its subclass - CachingDivisionStepCalculationService
 public class DivisionStepCalculationService {
-    private final IntegerDivisionStepCache divisionStepCache;
 
-    public DivisionStepCalculationService(IntegerDivisionStepCache divisionStepCache) {
-        this.divisionStepCache = divisionStepCache;
-    }
-
-    public DivisionStepCalculationService() {
-        this.divisionStepCache = null;
-    }
 
     public List<IntegerDivisionStep> calculateStepsForOperands(int dividend, int divisor) {
-        if (null == this.divisionStepCache) {
-            return calculateSteps(dividend, divisor);
-        }
-
-        final List<IntegerDivisionStep> steps = this.divisionStepCache.getIntegerDivisionStepsForOperands(
-                dividend,
-                divisor);
-
-        if (steps.isEmpty()) {
-            final List<IntegerDivisionStep> integerDivisionSteps = calculateSteps(dividend, divisor);
-            this.divisionStepCache.addIntegerDivisionStepsForOperands(dividend, divisor, integerDivisionSteps);
-            return integerDivisionSteps;
-        }
-
-        return steps;
-    }
-
-    private List<IntegerDivisionStep> calculateSteps(int dividend, int divisor) {
         if (divisor < 1) {
             throw new IllegalArgumentException("Negative or zero divisor not allowed");
         }
@@ -46,13 +18,19 @@ public class DivisionStepCalculationService {
         List<IntegerDivisionStep> steps = new ArrayList<>();
 
         if (dividend == 0) {
-            updateSteps(steps, 0, 0, '0');
-            updateSteps(steps, 1, 0, '\0');
+            updateSteps(steps, 0, 0, '0', 0);
+            updateSteps(steps, 0, 0, '\0', 0);
             return steps;
         }
 
         String dividendStr = String.valueOf(dividend);
         int partialDividend = 0;
+
+        if (dividendStr.length() <= String.valueOf(divisor).length() && dividend < divisor) {
+            updateSteps(steps, dividend, 0, '0', dividendStr.length() - 1);
+            updateSteps(steps, dividend, 0, '\0', dividendStr.length() - 1);
+            return steps;
+        }
 
         for (int i = 0; i < dividendStr.length(); i++) {
             int dividendDigit = Character.getNumericValue(dividendStr.charAt(i));
@@ -69,7 +47,7 @@ public class DivisionStepCalculationService {
             }
         }
 
-        updateSteps(steps, partialDividend, 0, '\0');
+        updateSteps(steps, partialDividend, 0, '\0', dividendStr.length() - 1);
         return steps;
     }
 

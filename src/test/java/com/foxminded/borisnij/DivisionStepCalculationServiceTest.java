@@ -24,44 +24,60 @@ class DivisionStepCalculationServiceTest {
                         new IntegerDivisionStep(26, 26, '2', 1),
                         new IntegerDivisionStep(4, 0, '0', 2),
                         new IntegerDivisionStep(47, 39, '3', 3),
-                        new IntegerDivisionStep(8, 0, '\0', -1)
+                        new IntegerDivisionStep(8, 0, '\0', 3)
                 )),
                 Arguments.of(167, 7, Arrays.asList(
                         new IntegerDivisionStep(16, 14, '2', 1),
                         new IntegerDivisionStep(27, 21, '3', 2),
-                        new IntegerDivisionStep(6, 0, '\0', -1)
+                        new IntegerDivisionStep(6, 0, '\0', 2)
                 )),
                 Arguments.of(167, 71, Arrays.asList(
                         new IntegerDivisionStep(167, 142, '2', 2),
-                        new IntegerDivisionStep(25, 0, '\0', -1)
+                        new IntegerDivisionStep(25, 0, '\0', 2)
                 )),
                 Arguments.of(738, 7, Arrays.asList(
                         new IntegerDivisionStep(7, 7, '1', 0),
                         new IntegerDivisionStep(3, 0, '0', 1),
                         new IntegerDivisionStep(38, 35, '5', 2),
-                        new IntegerDivisionStep(3, 0, '\0', -1)
+                        new IntegerDivisionStep(3, 0, '\0', 2)
                 )),
                 Arguments.of(78945, 76, Arrays.asList(
                         new IntegerDivisionStep(78, 76, '1', 1),
                         new IntegerDivisionStep(29, 0, '0', 2),
                         new IntegerDivisionStep(294, 228, '3', 3),
                         new IntegerDivisionStep(665, 608, '8', 4),
-                        new IntegerDivisionStep(57, 0, '\0', -1)
+                        new IntegerDivisionStep(57, 0, '\0', 4)
                 )),
                 Arguments.of(1, 1, Arrays.asList(
                         new IntegerDivisionStep(1, 1, '1', 0),
-                        new IntegerDivisionStep(0, 0, '\0', -1)
+                        new IntegerDivisionStep(0, 0, '\0', 0)
                 )),
                 Arguments.of(0, 1, Arrays.asList(
-                        new IntegerDivisionStep(0, 0, '0'),
-                        new IntegerDivisionStep(1, 0, '\0')
+                        new IntegerDivisionStep(0, 0, '0', 0),
+                        new IntegerDivisionStep(0, 0, '\0', 0)
+                )),
+                Arguments.of(0, 25, Arrays.asList(
+                        new IntegerDivisionStep(0, 0, '0', 0),
+                        new IntegerDivisionStep(0, 0, '\0', 0)
+                )),
+                Arguments.of(1, 25, Arrays.asList(
+                        new IntegerDivisionStep(1, 0, '0', 0),
+                        new IntegerDivisionStep(1, 0, '\0', 0)
+                )),
+                Arguments.of(2, 7, Arrays.asList(
+                        new IntegerDivisionStep(2, 0, '0', 0),
+                        new IntegerDivisionStep(2, 0, '\0', 0)
+                )),
+                Arguments.of(12, 25, Arrays.asList(
+                        new IntegerDivisionStep(12, 0, '0', 1),
+                        new IntegerDivisionStep(12, 0, '\0', 1)
                 ))
         );
     }
 
     @BeforeEach
     void init() {
-        divider = new DivisionStepCalculationService(divisionStepCache);
+        divider = new DivisionStepCalculationService();
     }
 
     @ParameterizedTest
