@@ -27,7 +27,7 @@ public class IntegerDivisionStep {
         this(other.getPartialDividend(),
              other.getDivisorMultiple(),
              other.getQuotientDigit(),
-             other.getRightmostPartialDividendDigitIndex();
+             other.getRightmostPartialDividendDigitIndex());
     }
 
     public int getPartialDividend() {
