@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class IntegerDivisionStep {
     private final int partialDividend;
-    private final int rightmostPartialDividendDigitIndex;
+    private final int dividendLength;
     private final int divisorMultiple;
     private final char quotientDigit;
 
@@ -14,20 +14,16 @@ public class IntegerDivisionStep {
                                char quotientDigit,
                                int rightmostPartialDividendDigitIndex) {
         this.partialDividend = partialDividend;
-        this.rightmostPartialDividendDigitIndex = rightmostPartialDividendDigitIndex;
+        this.dividendLength = rightmostPartialDividendDigitIndex + 1;
         this.divisorMultiple = divisorMultiple;
         this.quotientDigit = quotientDigit;
-    }
-
-    public IntegerDivisionStep(int partialDividend, int divisorMultiple, char quotientDigit) {
-        this(partialDividend, divisorMultiple, quotientDigit, -1);
     }
 
     public IntegerDivisionStep(IntegerDivisionStep other) {
         this(other.getPartialDividend(),
              other.getDivisorMultiple(),
              other.getQuotientDigit(),
-             other.getRightmostPartialDividendDigitIndex());
+             other.getDividendLength());
     }
 
     public int getPartialDividend() {
@@ -42,8 +38,8 @@ public class IntegerDivisionStep {
         return quotientDigit;
     }
 
-    public int getRightmostPartialDividendDigitIndex() {
-        return rightmostPartialDividendDigitIndex;
+    public int getDividendLength() {
+        return dividendLength;
     }
 
     @Override
@@ -52,14 +48,14 @@ public class IntegerDivisionStep {
         if (o == null || getClass() != o.getClass()) return false;
         IntegerDivisionStep that = (IntegerDivisionStep) o;
         return partialDividend == that.partialDividend &&
-                rightmostPartialDividendDigitIndex == that.rightmostPartialDividendDigitIndex &&
+                dividendLength == that.dividendLength &&
                 divisorMultiple == that.divisorMultiple &&
                 quotientDigit == that.quotientDigit;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(partialDividend, rightmostPartialDividendDigitIndex, divisorMultiple, quotientDigit);
+        return Objects.hash(partialDividend, dividendLength, divisorMultiple, quotientDigit);
     }
 
     @Override
@@ -67,7 +63,7 @@ public class IntegerDivisionStep {
         return String.format(
                 "\n{partialDividend=%d,\nrightmostPartialDividendDigitIndex=%d\ndivisorMultiple=%d,\nquotientDigit='%c'}",
                 partialDividend,
-                rightmostPartialDividendDigitIndex,
+                dividendLength,
                 divisorMultiple,
                 quotientDigit);
     }

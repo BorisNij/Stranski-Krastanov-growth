@@ -7,34 +7,46 @@ import java.util.stream.IntStream;
 public class IntegerDivisionExerciseFormattingService {
 
     public String format(IntegerDivisionExercise divisionExercise) {
-        final String dividend = String.valueOf(divisionExercise.getDividend());
-        final String divisor = String.valueOf(divisionExercise.getDivisor());
-        final List<IntegerDivisionStep> divisionSteps = divisionExercise.getDivisionSteps();
-        final String solutionHeader = format(dividend, divisor, divisionSteps);
-        final String solutionBody = format(divisionSteps);
+        String solutionHeader = createSolutionHeader(divisionExercise);
+        String solutionBody = createSolutionBody(divisionExercise.getDivisionSteps());
         return String.join("\n", solutionHeader, solutionBody);
     }
 
-    private String format(String dividend, String divisor, List<IntegerDivisionStep> divisionSteps) {
-        final String quotient = getQuotientFromSteps(divisionSteps);
-        final String firstDivisorMultiple = getFirstDivisorMultipleFromSteps(divisionSteps);
-        final String solutionHeaderFirstLineTemplate = "_%1$s|%2$s";
-        final int firstPartialDividendLength = divisionSteps.get(0).getRightmostPartialDividendDigitIndex() + 1;
-        final String divisorMultipleTemplate = "%1$" + (firstPartialDividendLength + 1) + "s";
-        final String rightPadding = getPadding(' ', dividend.length() - firstPartialDividendLength);
-        final String divisorQuotientRuler = "-".repeat(quotient.length());
-        final String solutionHeaderSecondLineTemplate = divisorMultipleTemplate + rightPadding + "|" + "%2$s";
-        final String subtractionResultRuler = "-".repeat(firstPartialDividendLength);
-        final String solutionHeaderThirdLineTemplate = "%1$" +
-                (firstPartialDividendLength + 1) +
-                "s" +
+    private String createSolutionHeader(IntegerDivisionExercise divisionExercise) {
+        int dividend = divisionExercise.getDividend();
+        int divisor = divisionExercise.getDivisor();
+        String quotient = getQuotientFromSteps(divisionExercise.getDivisionSteps());
+        String firstDivisorMultiple = getFirstDivisorMultipleFromSteps(divisionExercise.getDivisionSteps());
+        int firstPartialDividend = divisionExercise.getDivisionSteps().get(0).getPartialDividend();
+        String solutionOperandsLineTemplate = "_%1$d|%2$d";
+        return String.join("\n",
+                           String.format(solutionOperandsLineTemplate, dividend, divisor),
+                           String.format(getDivisorMultipleLineTemplate(dividend, firstPartialDividend),
+                                         firstDivisorMultiple) +
+                                   getDivisorMultipleLineSuffix(dividend, firstPartialDividend, quotient),
+                           String.format(getQuotientLineTemplate(dividend, firstPartialDividend), quotient));
+    }
+
+    private String getDivisorMultipleLineTemplate(int dividend, int partialDividend) {
+        String divStr = String.valueOf(dividend);
+        String partialDivStr = String.valueOf(partialDividend);
+        return "%" + (partialDivStr.length() + 1) + "s";
+    }
+
+    private String getDivisorMultipleLineSuffix(int dividend, int partialDividend, String quotient) {
+        return " ".repeat(String.valueOf(dividend).length() - String.valueOf(partialDividend).length()) +
+                "|" +
+                "-".repeat(quotient.length());
+    }
+
+    private String getQuotientLineTemplate(int dividend, int partialDividend) {
+        String divStr = String.valueOf(dividend);
+        String partialDivStr = String.valueOf(partialDividend);
+        String rightPadding = " ".repeat(divStr.length() - partialDivStr.length());
+        return String.format("%" + (partialDivStr.length() + 1) + "s", "-".repeat(partialDivStr.length())) +
                 rightPadding +
                 "|" +
-                "%2$s";
-        return String.join("\n",
-                           String.format(solutionHeaderFirstLineTemplate, dividend, divisor),
-                           String.format(solutionHeaderSecondLineTemplate, firstDivisorMultiple, divisorQuotientRuler),
-                           String.format(solutionHeaderThirdLineTemplate, subtractionResultRuler, quotient));
+                "%s";
     }
 
     private String getFirstDivisorMultipleFromSteps(List<IntegerDivisionStep> divisionSteps) {
@@ -47,12 +59,12 @@ public class IntegerDivisionExerciseFormattingService {
                 .collect(Collectors.joining());
     }
 
-    private String format(List<IntegerDivisionStep> divisionSteps) {
+    private String createSolutionBody(List<IntegerDivisionStep> divisionSteps) {
         final StringBuilder solutionBodyBuilder = new StringBuilder(divisionSteps.size());
 
         final int lastIndex = divisionSteps.size() - 1;
         for (int i = 1; i < lastIndex; i++) {
-            final int lineLen = divisionSteps.get(i).getRightmostPartialDividendDigitIndex() + 2;
+            final int lineLen = divisionSteps.get(i).getDividendLength();
             final IntegerDivisionStep step = divisionSteps.get(i);
             solutionBodyBuilder.append(String.format("%" + lineLen + "s", "_" + step.getPartialDividend()))
                     .append("\n")
@@ -65,13 +77,13 @@ public class IntegerDivisionExerciseFormattingService {
         }
         solutionBodyBuilder.append(String.format("%" +
                                                          (divisionSteps.get(lastIndex)
-                                                                 .getRightmostPartialDividendDigitIndex() + 2) +
+                                                                 .getDividendLength()) +
                                                          "d", divisionSteps.get(lastIndex).getPartialDividend()));
         return solutionBodyBuilder.toString();
     }
 
     private String getPadding(char paddingChar, int count) {
-        return String.valueOf(paddingChar).repeat(count);
+        return String.valueOf(paddingChar).repeat(count > 0 ? count : 0);
     }
 
 
