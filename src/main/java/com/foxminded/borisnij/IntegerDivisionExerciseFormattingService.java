@@ -6,13 +6,13 @@ import java.util.stream.IntStream;
 
 public class IntegerDivisionExerciseFormattingService {
 
-    public String format(IntegerDivisionExercise divisionExercise) {
+    public String format(IntegerDivisionSolution divisionExercise) {
         String solutionHeader = createSolutionHeader(divisionExercise);
         String solutionBody = createSolutionBody(divisionExercise.getDivisionSteps());
         return String.join("\n", solutionHeader, solutionBody);
     }
 
-    private String createSolutionHeader(IntegerDivisionExercise divisionExercise) {
+    private String createSolutionHeader(IntegerDivisionSolution divisionExercise) {
         int dividend = divisionExercise.getDividend();
         int divisor = divisionExercise.getDivisor();
         String quotient = getQuotientFromSteps(divisionExercise.getDivisionSteps());
@@ -64,7 +64,7 @@ public class IntegerDivisionExerciseFormattingService {
 
         final int lastIndex = divisionSteps.size() - 1;
         for (int i = 1; i < lastIndex; i++) {
-            final int lineLen = divisionSteps.get(i).getDividendLength();
+            final int lineLen = divisionSteps.get(i).getDividendLength() - 1;
             final IntegerDivisionStep step = divisionSteps.get(i);
             solutionBodyBuilder.append(String.format("%" + lineLen + "s", "_" + step.getPartialDividend()))
                     .append("\n")
@@ -77,7 +77,7 @@ public class IntegerDivisionExerciseFormattingService {
         }
         solutionBodyBuilder.append(String.format("%" +
                                                          (divisionSteps.get(lastIndex)
-                                                                 .getDividendLength()) +
+                                                                 .getDividendLength() - 1) +
                                                          "d", divisionSteps.get(lastIndex).getPartialDividend()));
         return solutionBodyBuilder.toString();
     }

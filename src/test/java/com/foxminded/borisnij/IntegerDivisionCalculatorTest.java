@@ -14,61 +14,72 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class DivisionStepCalculationServiceTest {
-    DivisionStepCalculationService divider;
+class IntegerDivisionCalculatorTest {
+    IntegerDivisionCalculator divider;
 
     static Stream<Arguments> testData() {
 
         return Stream.of(
-                Arguments.of(2647, 13, Arrays.asList(
+                Arguments.of(2647, 13,
+                             2647, 13, Arrays.asList(
                         new IntegerDivisionStep(26, 26, '2', 1),
                         new IntegerDivisionStep(4, 0, '0', 2),
                         new IntegerDivisionStep(47, 39, '3', 3),
                         new IntegerDivisionStep(8, 0, '\0', 3)
                 )),
-                Arguments.of(167, 7, Arrays.asList(
+                Arguments.of(167, 7,
+                             167, 7, Arrays.asList(
                         new IntegerDivisionStep(16, 14, '2', 1),
                         new IntegerDivisionStep(27, 21, '3', 2),
                         new IntegerDivisionStep(6, 0, '\0', 2)
                 )),
-                Arguments.of(167, 71, Arrays.asList(
+                Arguments.of(167, 71,
+                             167, 71, Arrays.asList(
                         new IntegerDivisionStep(167, 142, '2', 2),
                         new IntegerDivisionStep(25, 0, '\0', 2)
                 )),
-                Arguments.of(738, 7, Arrays.asList(
+                Arguments.of(738, 7,
+                             738, 7, Arrays.asList(
                         new IntegerDivisionStep(7, 7, '1', 0),
                         new IntegerDivisionStep(3, 0, '0', 1),
                         new IntegerDivisionStep(38, 35, '5', 2),
                         new IntegerDivisionStep(3, 0, '\0', 2)
                 )),
-                Arguments.of(78945, 76, Arrays.asList(
+                Arguments.of(78945, 76,
+                             78945, 76, Arrays.asList(
                         new IntegerDivisionStep(78, 76, '1', 1),
                         new IntegerDivisionStep(29, 0, '0', 2),
                         new IntegerDivisionStep(294, 228, '3', 3),
                         new IntegerDivisionStep(665, 608, '8', 4),
                         new IntegerDivisionStep(57, 0, '\0', 4)
                 )),
-                Arguments.of(1, 1, Arrays.asList(
+                Arguments.of(1, 1,
+                             1, 1, Arrays.asList(
                         new IntegerDivisionStep(1, 1, '1', 0),
                         new IntegerDivisionStep(0, 0, '\0', 0)
                 )),
-                Arguments.of(0, 1, Arrays.asList(
+                Arguments.of(0, 1,
+                             0, 1, Arrays.asList(
                         new IntegerDivisionStep(0, 0, '0', 0),
                         new IntegerDivisionStep(0, 0, '\0', 0)
                 )),
-                Arguments.of(0, 25, Arrays.asList(
+                Arguments.of(0, 25,
+                             0, 25, Arrays.asList(
                         new IntegerDivisionStep(0, 0, '0', 0),
                         new IntegerDivisionStep(0, 0, '\0', 0)
                 )),
-                Arguments.of(1, 25, Arrays.asList(
+                Arguments.of(1, 25,
+                             1, 25, Arrays.asList(
                         new IntegerDivisionStep(1, 0, '0', 0),
                         new IntegerDivisionStep(1, 0, '\0', 0)
                 )),
-                Arguments.of(2, 7, Arrays.asList(
+                Arguments.of(2, 7,
+                             2, 7, Arrays.asList(
                         new IntegerDivisionStep(2, 0, '0', 0),
                         new IntegerDivisionStep(2, 0, '\0', 0)
                 )),
-                Arguments.of(12, 25, Arrays.asList(
+                Arguments.of(12, 25,
+                             12, 25, Arrays.asList(
                         new IntegerDivisionStep(12, 0, '0', 1),
                         new IntegerDivisionStep(12, 0, '\0', 1)
                 ))
@@ -77,36 +88,46 @@ class DivisionStepCalculationServiceTest {
 
     @BeforeEach
     void init() {
-        divider = new DivisionStepCalculationService();
+        divider = new IntegerDivisionCalculator();
     }
 
     @ParameterizedTest
     @MethodSource("testData")
     @DisplayName("When provided with valid dividend and divisor should return correct division steps")
-    void whenProvidedWithValidDividendAndDivisorShouldReturnCorrectDivisionSteps(int dividend,
-                                                                                 int divisor,
-                                                                                 List<IntegerDivisionStep> expectedSteps) {
-        List<IntegerDivisionStep> actualSteps = divider.calculateStepsForOperands(dividend, divisor);
+    void whenProvidedWithValidDividendAndDivisorShouldReturnCorrectDivisionSteps(
+            int dividend,
+            int divisor,
+            int expectedDividend,
+            int expectedDivisor,
+            List<IntegerDivisionStep> expectedSteps) {
 
-        assertEquals(expectedSteps, actualSteps);
+        IntegerDivisionSolution expectedSolution = createSolution(expectedDividend, expectedDivisor, expectedSteps);
+
+        IntegerDivisionSolution actualSolution = divider.calculateSolutionForOperands(dividend, divisor);
+
+        assertEquals(expectedSolution, actualSolution);
     }
 
     @Test
     @DisplayName("When provided with divisor 0 should throw IllegalArgumentException")
     void whenProvidedWithDivisor0ShouldThrowIllegalArgumentException() {
 
-        assertThrows(IllegalArgumentException.class, () -> divider.calculateStepsForOperands(123, 0));
+        assertThrows(IllegalArgumentException.class, () -> divider.calculateSolutionForOperands(123, 0));
     }
 
     @Test
     @DisplayName("When provided with negative divisor should throw IllegalArgumentException")
     void whenProvidedWithNegativeDivisorShouldThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> divider.calculateStepsForOperands(123, -2));
+        assertThrows(IllegalArgumentException.class, () -> divider.calculateSolutionForOperands(123, -2));
     }
 
     @Test
     @DisplayName("When provided with negative dividend should throw IllegalArgumentException")
     void whenProvidedWithNegativeDividendShouldThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> divider.calculateStepsForOperands(-3, 1));
+        assertThrows(IllegalArgumentException.class, () -> divider.calculateSolutionForOperands(-3, 1));
+    }
+
+    private IntegerDivisionSolution createSolution(int dividend, int divisor, List<IntegerDivisionStep> steps) {
+        return new IntegerDivisionSolution(dividend, divisor, steps);
     }
 }

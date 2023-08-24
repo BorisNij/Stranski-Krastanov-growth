@@ -2,21 +2,21 @@ package com.foxminded.borisnij;
 
 import java.util.List;
 
-public class CachingDivisionStepCalculationService extends DivisionStepCalculationService {
+public class CachingIntegerDivisionCalculator extends IntegerDivisionCalculator {
 
     private final IntegerDivisionStepCache stepCache;
 
-    public CachingDivisionStepCalculationService(IntegerDivisionStepCache stepCache) {
+    public CachingIntegerDivisionCalculator(IntegerDivisionStepCache stepCache) {
         this.stepCache = stepCache;
     }
 
     @Override
-    public List<IntegerDivisionStep> calculateStepsForOperands(int dividend, int divisor) {
+    public IntegerDivisionSolution calculateSolutionForOperands(int dividend, int divisor) {
         List<IntegerDivisionStep> divisionSteps = this.stepCache.getIntegerDivisionStepsForOperands(dividend, divisor);
         if (divisionSteps.isEmpty()) {
-            divisionSteps = super.calculateStepsForOperands(dividend, divisor);
+            divisionSteps = super.calculateSolutionForOperands(dividend, divisor).getDivisionSteps();
             this.stepCache.addIntegerDivisionStepsForOperands(dividend, divisor, divisionSteps);
         }
-        return divisionSteps;
+        return new IntegerDivisionSolution(dividend, divisor, divisionSteps);
     }
 }

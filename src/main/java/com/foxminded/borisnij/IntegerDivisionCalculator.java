@@ -3,10 +3,10 @@ package com.foxminded.borisnij;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DivisionStepCalculationService {
+public class IntegerDivisionCalculator {
 
 
-    public List<IntegerDivisionStep> calculateStepsForOperands(int dividend, int divisor) {
+    public IntegerDivisionSolution calculateSolutionForOperands(int dividend, int divisor) {
         if (divisor < 1) {
             throw new IllegalArgumentException("Negative or zero divisor not allowed");
         }
@@ -20,7 +20,7 @@ public class DivisionStepCalculationService {
         if (dividend == 0) {
             updateSteps(steps, 0, 0, '0', 0);
             updateSteps(steps, 0, 0, '\0', 0);
-            return steps;
+            return new IntegerDivisionSolution(dividend, divisor, steps);
         }
 
         String dividendStr = String.valueOf(dividend);
@@ -29,7 +29,7 @@ public class DivisionStepCalculationService {
         if (dividendStr.length() <= String.valueOf(divisor).length() && dividend < divisor) {
             updateSteps(steps, dividend, 0, '0', dividendStr.length() - 1);
             updateSteps(steps, dividend, 0, '\0', dividendStr.length() - 1);
-            return steps;
+            return new IntegerDivisionSolution(dividend, divisor, steps);
         }
 
         for (int i = 0; i < dividendStr.length(); i++) {
@@ -48,14 +48,7 @@ public class DivisionStepCalculationService {
         }
 
         updateSteps(steps, partialDividend, 0, '\0', dividendStr.length() - 1);
-        return steps;
-    }
-
-    private void updateSteps(List<IntegerDivisionStep> steps,
-                             int partialDividend,
-                             int divisorMultiple,
-                             char quotientDigit) {
-        updateSteps(steps, partialDividend, divisorMultiple, quotientDigit, -1);
+        return new IntegerDivisionSolution(dividend, divisor, steps);
     }
 
     private void updateSteps(List<IntegerDivisionStep> steps,
