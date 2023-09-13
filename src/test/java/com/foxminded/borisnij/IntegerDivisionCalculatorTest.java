@@ -21,67 +21,67 @@ class IntegerDivisionCalculatorTest {
 
         return Stream.of(
                 Arguments.of(2647, 13,
-                             2647, 13, Arrays.asList(
-                        new IntegerDivisionStep(26, 26, '2', 1),
-                        new IntegerDivisionStep(4, 0, '0', 2),
-                        new IntegerDivisionStep(47, 39, '3', 3),
-                        new IntegerDivisionStep(8, 0, '\0', 3)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(26, 26, '2'),
+                                     new IntegerDivisionStep(4, 0, '0'),
+                                     new IntegerDivisionStep(47, 39, '3'),
+                                     new IntegerDivisionStep(8, 0, '\0')
                 )),
                 Arguments.of(167, 7,
-                             167, 7, Arrays.asList(
-                        new IntegerDivisionStep(16, 14, '2', 1),
-                        new IntegerDivisionStep(27, 21, '3', 2),
-                        new IntegerDivisionStep(6, 0, '\0', 2)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(16, 14, '2'),
+                                     new IntegerDivisionStep(27, 21, '3'),
+                                     new IntegerDivisionStep(6, 0, '\0')
                 )),
                 Arguments.of(167, 71,
-                             167, 71, Arrays.asList(
-                        new IntegerDivisionStep(167, 142, '2', 2),
-                        new IntegerDivisionStep(25, 0, '\0', 2)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(167, 142, '2'),
+                                     new IntegerDivisionStep(25, 0, '\0')
                 )),
                 Arguments.of(738, 7,
-                             738, 7, Arrays.asList(
-                        new IntegerDivisionStep(7, 7, '1', 0),
-                        new IntegerDivisionStep(3, 0, '0', 1),
-                        new IntegerDivisionStep(38, 35, '5', 2),
-                        new IntegerDivisionStep(3, 0, '\0', 2)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(7, 7, '1'),
+                                     new IntegerDivisionStep(3, 0, '0'),
+                                     new IntegerDivisionStep(38, 35, '5'),
+                                     new IntegerDivisionStep(3, 0, '\0')
                 )),
                 Arguments.of(78945, 76,
-                             78945, 76, Arrays.asList(
-                        new IntegerDivisionStep(78, 76, '1', 1),
-                        new IntegerDivisionStep(29, 0, '0', 2),
-                        new IntegerDivisionStep(294, 228, '3', 3),
-                        new IntegerDivisionStep(665, 608, '8', 4),
-                        new IntegerDivisionStep(57, 0, '\0', 4)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(78, 76, '1'),
+                                     new IntegerDivisionStep(29, 0, '0'),
+                                     new IntegerDivisionStep(294, 228, '3'),
+                                     new IntegerDivisionStep(665, 608, '8'),
+                                     new IntegerDivisionStep(57, 0, '\0')
                 )),
                 Arguments.of(1, 1,
-                             1, 1, Arrays.asList(
-                        new IntegerDivisionStep(1, 1, '1', 0),
-                        new IntegerDivisionStep(0, 0, '\0', 0)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(1, 1, '1'),
+                                     new IntegerDivisionStep(0, 0, '\0')
                 )),
                 Arguments.of(0, 1,
-                             0, 1, Arrays.asList(
-                        new IntegerDivisionStep(0, 0, '0', 0),
-                        new IntegerDivisionStep(0, 0, '\0', 0)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(0, 0, '0'),
+                                     new IntegerDivisionStep(0, 0, '\0')
                 )),
                 Arguments.of(0, 25,
-                             0, 25, Arrays.asList(
-                        new IntegerDivisionStep(0, 0, '0', 0),
-                        new IntegerDivisionStep(0, 0, '\0', 0)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(0, 0, '0'),
+                                     new IntegerDivisionStep(0, 0, '\0')
                 )),
                 Arguments.of(1, 25,
-                             1, 25, Arrays.asList(
-                        new IntegerDivisionStep(1, 0, '0', 0),
-                        new IntegerDivisionStep(1, 0, '\0', 0)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(1, 0, '0'),
+                                     new IntegerDivisionStep(1, 0, '\0')
                 )),
                 Arguments.of(2, 7,
-                             2, 7, Arrays.asList(
-                        new IntegerDivisionStep(2, 0, '0', 0),
-                        new IntegerDivisionStep(2, 0, '\0', 0)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(2, 0, '0'),
+                                     new IntegerDivisionStep(2, 0, '\0')
                 )),
                 Arguments.of(12, 25,
-                             12, 25, Arrays.asList(
-                        new IntegerDivisionStep(12, 0, '0', 1),
-                        new IntegerDivisionStep(12, 0, '\0', 1)
+                             Arrays.asList(
+                                     new IntegerDivisionStep(12, 0, '0'),
+                                     new IntegerDivisionStep(12, 0, '\0')
                 ))
         );
     }
@@ -97,37 +97,31 @@ class IntegerDivisionCalculatorTest {
     void whenProvidedWithValidDividendAndDivisorShouldReturnCorrectDivisionSteps(
             int dividend,
             int divisor,
-            int expectedDividend,
-            int expectedDivisor,
             List<IntegerDivisionStep> expectedSteps) {
 
-        IntegerDivisionSolution expectedSolution = createSolution(expectedDividend, expectedDivisor, expectedSteps);
 
-        IntegerDivisionSolution actualSolution = divider.calculateSolutionForOperands(dividend, divisor);
+        List<IntegerDivisionStep> actualSteps = divider.calculateDivisionStepsForOperands(dividend, divisor);
 
-        assertEquals(expectedSolution, actualSolution);
+        assertEquals(expectedSteps, actualSteps);
     }
 
     @Test
     @DisplayName("When provided with divisor 0 should throw IllegalArgumentException")
     void whenProvidedWithDivisor0ShouldThrowIllegalArgumentException() {
 
-        assertThrows(IllegalArgumentException.class, () -> divider.calculateSolutionForOperands(123, 0));
+        assertThrows(IllegalArgumentException.class, () -> divider.calculateDivisionStepsForOperands(123, 0));
     }
 
     @Test
     @DisplayName("When provided with negative divisor should throw IllegalArgumentException")
     void whenProvidedWithNegativeDivisorShouldThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> divider.calculateSolutionForOperands(123, -2));
+        assertThrows(IllegalArgumentException.class, () -> divider.calculateDivisionStepsForOperands(123, -2));
     }
 
     @Test
     @DisplayName("When provided with negative dividend should throw IllegalArgumentException")
     void whenProvidedWithNegativeDividendShouldThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> divider.calculateSolutionForOperands(-3, 1));
+        assertThrows(IllegalArgumentException.class, () -> divider.calculateDivisionStepsForOperands(-3, 1));
     }
 
-    private IntegerDivisionSolution createSolution(int dividend, int divisor, List<IntegerDivisionStep> steps) {
-        return new IntegerDivisionSolution(dividend, divisor, steps);
-    }
 }

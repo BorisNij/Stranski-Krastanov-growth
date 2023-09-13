@@ -39,11 +39,11 @@ public class IntegerDivisionCalculator {
             if (partialDividend >= divisor) {
                 int quotientDigit = partialDividend / divisor;
                 int divisorMultiple = quotientDigit * divisor;
-                updateSteps(steps, partialDividend, divisorMultiple, Character.forDigit(quotientDigit, 10), i);
+                updateSteps(steps, partialDividend, divisorMultiple, Character.forDigit(quotientDigit, 10));
 
                 partialDividend -= divisorMultiple;
             } else if (!steps.isEmpty()) {
-                updateSteps(steps, partialDividend, 0, Character.forDigit(0, 10), i);
+                updateSteps(steps, partialDividend, 0, Character.forDigit(0, 10));
             }
         }
 
