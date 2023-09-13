@@ -11,12 +11,12 @@ public class CachingIntegerDivisionCalculator extends IntegerDivisionCalculator 
     }
 
     @Override
-    public IntegerDivisionSolution calculateSolutionForOperands(int dividend, int divisor) {
-        List<IntegerDivisionStep> divisionSteps = this.stepCache.getIntegerDivisionStepsForOperands(dividend, divisor);
+    public List<IntegerDivisionStep> calculateDivisionStepsForOperands(int dividend, int divisor) {
+        List<IntegerDivisionStep> divisionSteps = stepCache.getIntegerDivisionStepsForOperands(dividend, divisor);
         if (divisionSteps.isEmpty()) {
-            divisionSteps = super.calculateSolutionForOperands(dividend, divisor).getDivisionSteps();
-            this.stepCache.addIntegerDivisionStepsForOperands(dividend, divisor, divisionSteps);
+            divisionSteps = super.calculateDivisionStepsForOperands(dividend, divisor);
+            stepCache.addIntegerDivisionStepsForOperands(dividend, divisor, divisionSteps);
         }
-        return new IntegerDivisionSolution(dividend, divisor, divisionSteps);
+        return divisionSteps;
     }
 }

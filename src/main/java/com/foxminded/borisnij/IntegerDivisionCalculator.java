@@ -1,12 +1,13 @@
 package com.foxminded.borisnij;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class IntegerDivisionCalculator {
 
 
-    public IntegerDivisionSolution calculateSolutionForOperands(int dividend, int divisor) {
+    public List<IntegerDivisionStep> calculateDivisionStepsForOperands(int dividend, int divisor) {
         if (divisor < 1) {
             throw new IllegalArgumentException("Negative or zero divisor not allowed");
         }
@@ -18,18 +19,18 @@ public class IntegerDivisionCalculator {
         List<IntegerDivisionStep> steps = new ArrayList<>();
 
         if (dividend == 0) {
-            updateSteps(steps, 0, 0, '0', 0);
-            updateSteps(steps, 0, 0, '\0', 0);
-            return new IntegerDivisionSolution(dividend, divisor, steps);
+            updateSteps(steps, 0, 0, '0');
+            updateSteps(steps, 0, 0, '\0');
+            return Collections.unmodifiableList(steps);
         }
 
         String dividendStr = String.valueOf(dividend);
         int partialDividend = 0;
 
         if (dividendStr.length() <= String.valueOf(divisor).length() && dividend < divisor) {
-            updateSteps(steps, dividend, 0, '0', dividendStr.length() - 1);
-            updateSteps(steps, dividend, 0, '\0', dividendStr.length() - 1);
-            return new IntegerDivisionSolution(dividend, divisor, steps);
+            updateSteps(steps, dividend, 0, '0');
+            updateSteps(steps, dividend, 0, '\0');
+            return Collections.unmodifiableList(steps);
         }
 
         for (int i = 0; i < dividendStr.length(); i++) {
@@ -47,18 +48,18 @@ public class IntegerDivisionCalculator {
             }
         }
 
-        updateSteps(steps, partialDividend, 0, '\0', dividendStr.length() - 1);
-        return new IntegerDivisionSolution(dividend, divisor, steps);
+        updateSteps(steps, partialDividend, 0, '\0');
+        return Collections.unmodifiableList(steps);
     }
 
     private void updateSteps(List<IntegerDivisionStep> steps,
                              int partialDividend,
                              int divisorMultiple,
-                             char quotientDigit,
-                             int rightmostPartialDividendDigitIndex) {
+                             char quotientDigit
+    ) {
         steps.add(new IntegerDivisionStep(partialDividend,
                                           divisorMultiple,
-                                          quotientDigit,
-                                          rightmostPartialDividendDigitIndex));
+                                          quotientDigit
+        ));
     }
 }

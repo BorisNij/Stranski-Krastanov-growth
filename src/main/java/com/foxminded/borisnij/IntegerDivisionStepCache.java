@@ -23,6 +23,9 @@ public class IntegerDivisionStepCache {
         return this.stepCache.containsKey(parseKey(dividend, divisor));
     }
 
+    public boolean isEmpty() {
+        return stepCache.isEmpty();
+    }
 
     public void invalidate() {
         this.stepCache.clear();
