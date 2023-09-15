@@ -1,14 +1,60 @@
 package com.foxminded.borisnij;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 public class IntegerDivisionSolutionFormatter {
+    private String verticalSeparator;
+    private String horizontalSeparator;
+    private char paddingSymbol;
+    private String subtractionSign;
 
-    private final StringEdgeModifier edgeModifier;
+    public IntegerDivisionSolutionFormatter(Builder builder) {
+        this.verticalSeparator = builder.verticalSeparator;
+        this.horizontalSeparator = builder.horizontalSeparator;
+        this.paddingSymbol = builder.paddingSymbol;
+        this.subtractionSign = builder.subtractionSign;
+    }
 
-    public IntegerDivisionSolutionFormatter(StringEdgeModifier edgeModifier) {
-        this.edgeModifier = edgeModifier;
+    private static String charToString(char c) {
+        return String.valueOf(c);
+    }
+
+    private static String repeatChar(char c, int count) {
+        StringBuilder sb = new StringBuilder(count);
+        for (int i = 0; i < count; i++) {
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    public String getVerticalSeparator() {
+        return verticalSeparator;
+    }
+
+    public void setVerticalSeparator(String verticalSeparator) {
+        this.verticalSeparator = Objects.requireNonNull(verticalSeparator);
+    }
+
+    public String getHorizontalSeparator() {
+        return horizontalSeparator;
+    }
+
+    public void setHorizontalSeparator(String horizontalSeparator) {
+        this.horizontalSeparator = Objects.requireNonNull(horizontalSeparator);
+    }
+
+    public char getPaddingSymbol() {
+        return paddingSymbol;
+    }
+
+    public void setPaddingSymbol(char paddingSymbol) {
+        this.paddingSymbol = paddingSymbol;
+    }
+
+    public String getSubtractionSign() {
+        return subtractionSign;
     }
 
     public String format(String dividend,
@@ -26,22 +72,28 @@ public class IntegerDivisionSolutionFormatter {
         return String.join("\n", solutionHead, solutionBody);
     }
 
+    public void setSubtractionSign(String subtractionSign) {
+        this.subtractionSign = Objects.requireNonNull(subtractionSign);
+    }
+
     private String formatHead(String dividend,
                               String divisor,
                               String quotient,
                               String firstDivisorMultiple,
                               int firstPartialDividendLength) {
-        String operandsLine = String.join("", "_", dividend, "|", divisor);
-        String rightPadding = " ".repeat(dividend.length() - firstPartialDividendLength);
-        String firstDivisorMultipleLine = String.join("|",
-                                                      edgeModifier.setValue(firstDivisorMultiple)
-                                                              .addPrefix(" ")
-                                                              .addSuffix(rightPadding),
-                                                      "-".repeat(quotient.length()));
-        String quotientLine = String.join("|",
-                                          edgeModifier.setValue("-".repeat(firstPartialDividendLength))
-                                                  .addPrefix(" ")
-                                                  .addSuffix(rightPadding),
+        String operandsLine = String.join("", subtractionSign, dividend, verticalSeparator, divisor);
+        String rightPadding = repeatChar(paddingSymbol, dividend.length() - firstPartialDividendLength);
+        String firstDivisorMultipleLine = String.join("",
+                                                      charToString(paddingSymbol),
+                                                      firstDivisorMultiple,
+                                                      rightPadding,
+                                                      verticalSeparator,
+                                                      horizontalSeparator.repeat(quotient.length()));
+        String quotientLine = String.join("",
+                                          charToString(paddingSymbol),
+                                          horizontalSeparator.repeat(firstPartialDividendLength),
+                                          rightPadding,
+                                          verticalSeparator,
                                           quotient);
 
         return String.join("\n", operandsLine, firstDivisorMultipleLine, quotientLine);
@@ -53,28 +105,56 @@ public class IntegerDivisionSolutionFormatter {
         for (int i = 0; i < lastIndex; i++) {
             final IntegerDivisionStepDTO step = divisionSteps.get(i);
             final String stepPartialDividend = step.getPartialDividend();
-            final int stepPaddingLength = (firstPartialDividendLength + i + 2) - stepPartialDividend.length();
-            appendSolutionLine(stepPaddingLength, step, solutionBodyJoiner);
+            final String stepDivisorMultiple = step.getDivisorMultiple();
+            final int stepPaddingWidth = (firstPartialDividendLength + i + 2) - stepPartialDividend.length();
+            appendSolutionLine(solutionBodyJoiner,
+                               repeatChar(paddingSymbol, stepPaddingWidth - 1),
+                               subtractionSign,
+                               stepPartialDividend);
+            appendSolutionLine(solutionBodyJoiner, repeatChar(paddingSymbol, stepPaddingWidth), stepDivisorMultiple);
+            appendSolutionLine(solutionBodyJoiner,
+                               repeatChar(paddingSymbol, stepPaddingWidth),
+                               horizontalSeparator.repeat(stepPartialDividend.length()));
         }
-        appendSolutionLine((lastIndex + firstPartialDividendLength + 1) -
-                                   divisionSteps.get(lastIndex).getPartialDividend().length(),
-                           divisionSteps.get(lastIndex).getPartialDividend(),
-                           solutionBodyJoiner);
+        final String remainder = divisionSteps.get(lastIndex).getPartialDividend();
+        final int leftPaddingWidth = Math.max(subtractionSign.length(),
+                                              (lastIndex + firstPartialDividendLength + 1) - remainder.length());
+        appendSolutionLine(solutionBodyJoiner, repeatChar(paddingSymbol, leftPaddingWidth), remainder);
         return solutionBodyJoiner.toString();
     }
 
-    private void appendSolutionLine(int leftPaddingLength,
-                                    IntegerDivisionStepDTO step,
-                                    StringJoiner solutionBodyJoiner) {
-        final String partialDividend = step.getPartialDividend();
-        solutionBodyJoiner.add(edgeModifier.setValue(partialDividend)
-                                       .addPrefix("_")
-                                       .addPrefix(" ", leftPaddingLength - 1))
-                .add(edgeModifier.setValue(step.getDivisorMultiple()).addPrefix(" ", leftPaddingLength))
-                .add(edgeModifier.setValue("-".repeat(partialDividend.length())).addPrefix(" ", leftPaddingLength));
+    private void appendSolutionLine(StringJoiner solutionBodyJoiner, String... tokens) {
+        solutionBodyJoiner.add(String.join("", tokens));
     }
 
-    private void appendSolutionLine(int leftPaddingLength, String remainder, StringJoiner solutionBodyJoiner) {
-        solutionBodyJoiner.add(edgeModifier.setValue(remainder).addPrefix(" ", leftPaddingLength));
+    public static class Builder {
+        private String verticalSeparator = "|";
+        private String horizontalSeparator = "-";
+        private char paddingSymbol = ' ';
+        private String subtractionSign = "_";
+
+        public Builder verticalSeparator(String verticalSeparator) {
+            this.verticalSeparator = Objects.requireNonNull(verticalSeparator);
+            return this;
+        }
+
+        public Builder horizontalSeparator(String horizontalSeparator) {
+            this.horizontalSeparator = Objects.requireNonNull(horizontalSeparator);
+            return this;
+        }
+
+        public Builder paddingSymbol(char paddingSymbol) {
+            this.paddingSymbol = paddingSymbol;
+            return this;
+        }
+
+        public Builder subtractionSign(String subtractionSign) {
+            this.subtractionSign = Objects.requireNonNull(subtractionSign);
+            return this;
+        }
+
+        public IntegerDivisionSolutionFormatter build() {
+            return new IntegerDivisionSolutionFormatter(this);
+        }
     }
 }

@@ -10,12 +10,17 @@ public class IntegerDivisionSolutionService {
         this.integerCalculator = integerCalculator;
     }
 
+    private static int getFirstPartialDividendLength(String quotient, int firstPartialDividend) {
+        return !quotient.equals("0") ? countDigits(firstPartialDividend) : 1;
+    }
+
     private static String getQuotientFromDivisionSteps(List<IntegerDivisionStep> divisionSteps) {
 
-        return divisionSteps.stream()
-                .limit(divisionSteps.size() - 1)
-                .map(divisionStep -> String.valueOf(divisionStep.getQuotientDigit()))
-                .collect(Collectors.joining());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0, divisionStepsSize = divisionSteps.size(); i < divisionStepsSize - 1; i++) {
+            sb.append(divisionSteps.get(i).getQuotientDigit());
+        }
+        return sb.toString();
     }
 
     private static int countDigits(int inputInteger) {
@@ -39,7 +44,7 @@ public class IntegerDivisionSolutionService {
                 .divisor(intToString(divisor))
                 .quotient(quotient)
                 .firstDivisorMultiple(intToString(firstStep.getDivisorMultiple()))
-                .firstPartialDividendLength(countDigits(firstStep.getPartialDividend()))
+                .firstPartialDividendLength(getFirstPartialDividendLength(quotient, firstStep.getPartialDividend()))
                 .divisionSteps(solutionSteps)
                 .build();
     }

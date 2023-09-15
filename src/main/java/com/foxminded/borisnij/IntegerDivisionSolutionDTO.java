@@ -1,6 +1,7 @@
 package com.foxminded.borisnij;
 
 import java.util.List;
+import java.util.Objects;
 
 public class IntegerDivisionSolutionDTO {
     private final String dividend;
@@ -10,7 +11,7 @@ public class IntegerDivisionSolutionDTO {
     private final int firstPartialDividendLength;
     private final List<IntegerDivisionStepDTO> divisionSteps;
 
-    IntegerDivisionSolutionDTO(Builder builder) {
+    public IntegerDivisionSolutionDTO(Builder builder) {
         this.dividend = builder.dividend;
         this.divisor = builder.divisor;
         this.quotient = builder.quotient;
@@ -28,42 +29,71 @@ public class IntegerDivisionSolutionDTO {
                                         this.divisionSteps);
     }
 
+    public String getDividend() {
+        return dividend;
+    }
+
+    public String getDivisor() {
+        return divisor;
+    }
+
+    public String getQuotient() {
+        return quotient;
+    }
+
+    public String getFirstDivisorMultiple() {
+        return firstDivisorMultiple;
+    }
+
+    public int getFirstPartialDividendLength() {
+        return firstPartialDividendLength;
+    }
+
+    public List<IntegerDivisionStepDTO> getDivisionSteps() {
+        return divisionSteps;
+    }
+
     public static class Builder {
+
         private String dividend;
         private String divisor;
         private String quotient;
         private String firstDivisorMultiple;
-
         private int firstPartialDividendLength = -1;
+
         private List<IntegerDivisionStepDTO> divisionSteps;
 
         public Builder dividend(String dividend) {
-            this.dividend = dividend;
+            this.dividend = Objects.requireNonNull(dividend);
             return this;
         }
 
         public Builder divisor(String divisor) {
-            this.divisor = divisor;
+            this.divisor = Objects.requireNonNull(divisor);
             return this;
         }
 
         public Builder quotient(String quotient) {
-            this.quotient = quotient;
+            this.quotient = Objects.requireNonNull(quotient);
             return this;
         }
 
         public Builder firstDivisorMultiple(String firstDivisorMultiple) {
-            this.firstDivisorMultiple = firstDivisorMultiple;
+            this.firstDivisorMultiple = Objects.requireNonNull(firstDivisorMultiple);
             return this;
         }
 
         public Builder firstPartialDividendLength(int firstPartialDividendLength) {
+            if (firstPartialDividendLength < 1) {
+                throw new IllegalArgumentException(
+                        "First partial dividend cannot have zero or negative number of digits");
+            }
             this.firstPartialDividendLength = firstPartialDividendLength;
             return this;
         }
 
         public Builder divisionSteps(List<IntegerDivisionStepDTO> divisionSteps) {
-            this.divisionSteps = divisionSteps;
+            this.divisionSteps = Objects.requireNonNull(divisionSteps);
             return this;
         }
 
@@ -79,6 +109,7 @@ public class IntegerDivisionSolutionDTO {
 
             return new IntegerDivisionSolutionDTO(this);
         }
-    }
 
+
+    }
 }
