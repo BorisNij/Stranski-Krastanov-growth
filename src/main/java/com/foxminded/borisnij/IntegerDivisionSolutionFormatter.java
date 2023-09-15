@@ -21,14 +21,6 @@ public class IntegerDivisionSolutionFormatter {
         return String.valueOf(c);
     }
 
-    private static String repeatChar(char c, int count) {
-        StringBuilder sb = new StringBuilder(count);
-        for (int i = 0; i < count; i++) {
-            sb.append(c);
-        }
-        return sb.toString();
-    }
-
     public String getVerticalSeparator() {
         return verticalSeparator;
     }
@@ -125,6 +117,14 @@ public class IntegerDivisionSolutionFormatter {
 
     private void appendSolutionLine(StringJoiner solutionBodyJoiner, String... tokens) {
         solutionBodyJoiner.add(String.join("", tokens));
+    }
+
+    private static String repeatChar(char c, int count) {
+        StringBuilder sb = new StringBuilder(count);
+        for (int i = 0; i < count; i++) {
+            sb.append(c);
+        }
+        return sb.toString();
     }
 
     public static class Builder {
