@@ -7,6 +7,10 @@ import java.util.List;
 public class IntegerDivisionCalculator {
 
 
+    private static char getQuotientDigitChar(int quotientDigit) {
+        return Character.forDigit(quotientDigit, 10);
+    }
+
     public List<IntegerDivisionStep> calculateDivisionStepsForOperands(int dividend, int divisor) {
         if (divisor < 1) {
             throw new IllegalArgumentException("Negative or zero divisor not allowed");
@@ -24,15 +28,14 @@ public class IntegerDivisionCalculator {
             return Collections.unmodifiableList(steps);
         }
 
-        String dividendStr = String.valueOf(dividend);
-        int partialDividend = 0;
-
-        if (dividendStr.length() <= String.valueOf(divisor).length() && dividend < divisor) {
+        if (dividend < divisor) {
             updateSteps(steps, dividend, 0, '0');
             updateSteps(steps, dividend, 0, '\0');
             return Collections.unmodifiableList(steps);
         }
 
+        String dividendStr = String.valueOf(dividend);
+        int partialDividend = 0;
         for (int i = 0; i < dividendStr.length(); i++) {
             int dividendDigit = Character.getNumericValue(dividendStr.charAt(i));
             partialDividend = (partialDividend << 3) + (partialDividend << 1) + dividendDigit;
@@ -40,11 +43,11 @@ public class IntegerDivisionCalculator {
             if (partialDividend >= divisor) {
                 int quotientDigit = partialDividend / divisor;
                 int divisorMultiple = quotientDigit * divisor;
-                updateSteps(steps, partialDividend, divisorMultiple, Character.forDigit(quotientDigit, 10));
+                updateSteps(steps, partialDividend, divisorMultiple, getQuotientDigitChar(quotientDigit));
 
                 partialDividend -= divisorMultiple;
             } else if (!steps.isEmpty()) {
-                updateSteps(steps, partialDividend, 0, Character.forDigit(0, 10));
+                updateSteps(steps, partialDividend, 0, getQuotientDigitChar(0));
             }
         }
 
@@ -55,11 +58,7 @@ public class IntegerDivisionCalculator {
     private void updateSteps(List<IntegerDivisionStep> steps,
                              int partialDividend,
                              int divisorMultiple,
-                             char quotientDigit
-    ) {
-        steps.add(new IntegerDivisionStep(partialDividend,
-                                          divisorMultiple,
-                                          quotientDigit
-        ));
+                             char quotientDigit) {
+        steps.add(new IntegerDivisionStep(partialDividend, divisorMultiple, quotientDigit));
     }
 }
