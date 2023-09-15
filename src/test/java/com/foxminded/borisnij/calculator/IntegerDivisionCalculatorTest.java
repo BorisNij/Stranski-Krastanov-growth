@@ -89,7 +89,7 @@ class IntegerDivisionCalculatorTest {
 
     @BeforeEach
     void init() {
-        divider = new IntegerDivisionCalculator();
+        divider = new IntegerDivisionCalculatorImpl();
     }
 
     @ParameterizedTest

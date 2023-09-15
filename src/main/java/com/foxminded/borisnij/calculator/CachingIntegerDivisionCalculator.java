@@ -4,7 +4,7 @@ import com.foxminded.borisnij.model.IntegerDivisionStep;
 
 import java.util.List;
 
-public class CachingIntegerDivisionCalculator extends IntegerDivisionCalculator {
+public class CachingIntegerDivisionCalculator extends IntegerDivisionCalculatorImpl {
 
     private final IntegerDivisionStepCache stepCache;
 

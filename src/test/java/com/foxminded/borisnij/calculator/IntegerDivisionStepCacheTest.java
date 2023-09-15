@@ -16,7 +16,7 @@ public class IntegerDivisionStepCacheTest {
 
     @BeforeEach
     void setUp() {
-        cache = new IntegerDivisionStepCache();
+        cache = new IntegerDivisionStepCacheImpl();
     }
 
     @Test
