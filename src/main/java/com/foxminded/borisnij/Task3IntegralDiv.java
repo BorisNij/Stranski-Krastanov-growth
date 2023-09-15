@@ -4,7 +4,7 @@ import com.foxminded.borisnij.calculator.CachingIntegerDivisionCalculator;
 import com.foxminded.borisnij.calculator.IntegerDivisionCalculator;
 import com.foxminded.borisnij.calculator.IntegerDivisionStepCache;
 import com.foxminded.borisnij.dto.IntegerDivisionSolutionDTO;
-import com.foxminded.borisnij.formatter.IntegerDivisionSolutionFormatter;
+import com.foxminded.borisnij.formatter.IntegerDivisionSolutionFormatterImpl;
 import com.foxminded.borisnij.service.IntegerDivisionSolutionServiceImpl;
 
 public class Task3IntegralDiv {
@@ -25,7 +25,7 @@ public class Task3IntegralDiv {
             IntegerDivisionSolutionDTO solution = new IntegerDivisionSolutionServiceImpl(divisionCalculator).createSolutionForOperands(
                     dividend,
                     divisor);
-            String divisionSolution = solution.formatWithFormatter(new IntegerDivisionSolutionFormatter.Builder().build());
+            String divisionSolution = solution.formatWithFormatter(new IntegerDivisionSolutionFormatterImpl.Builder().build());
             System.out.println(divisionSolution);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Non-integer arguments not allowed");

@@ -15,6 +15,11 @@ public class IntegerDivisionSolutionFormatterTest {
 
     private IntegerDivisionSolutionFormatter formatter;
 
+    @BeforeEach
+    void setUp() {
+        formatter = new IntegerDivisionSolutionFormatterImpl.Builder().build();
+    }
+
     private static Stream<Arguments> formatTestCases() {
         return Stream.of(Arguments.of("78945",
                                       "76",
@@ -74,11 +79,6 @@ public class IntegerDivisionSolutionFormatterTest {
                                               " 0   |-\n" +
                                               " -   |0\n" +
                                               " 1672"));
-    }
-
-    @BeforeEach
-    void setUp() {
-        formatter = new IntegerDivisionSolutionFormatter.Builder().build();
     }
 
     @ParameterizedTest
