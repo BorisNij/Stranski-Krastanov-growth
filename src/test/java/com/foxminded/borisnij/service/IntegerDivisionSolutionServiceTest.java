@@ -24,7 +24,7 @@ public class IntegerDivisionSolutionServiceTest {
     @Mock
     IntegerDivisionCalculator integerDivisionCalculator;
     @InjectMocks
-    private IntegerDivisionSolutionService solutionService;
+    private IntegerDivisionSolutionServiceImpl solutionService;
 
     private static Stream<Arguments> provideTestData() {
         return Stream.of(Arguments.of(167,

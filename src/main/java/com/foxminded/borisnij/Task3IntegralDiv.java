@@ -5,7 +5,7 @@ import com.foxminded.borisnij.calculator.IntegerDivisionCalculator;
 import com.foxminded.borisnij.calculator.IntegerDivisionStepCache;
 import com.foxminded.borisnij.dto.IntegerDivisionSolutionDTO;
 import com.foxminded.borisnij.formatter.IntegerDivisionSolutionFormatter;
-import com.foxminded.borisnij.service.IntegerDivisionSolutionService;
+import com.foxminded.borisnij.service.IntegerDivisionSolutionServiceImpl;
 
 public class Task3IntegralDiv {
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class Task3IntegralDiv {
                 throw new IllegalArgumentException("Negative or zero divisor not allowed");
             }
             IntegerDivisionCalculator divisionCalculator = new CachingIntegerDivisionCalculator(new IntegerDivisionStepCache());
-            IntegerDivisionSolutionDTO solution = new IntegerDivisionSolutionService(divisionCalculator).createSolutionForOperands(
+            IntegerDivisionSolutionDTO solution = new IntegerDivisionSolutionServiceImpl(divisionCalculator).createSolutionForOperands(
                     dividend,
                     divisor);
             String divisionSolution = solution.formatWithFormatter(new IntegerDivisionSolutionFormatter.Builder().build());
