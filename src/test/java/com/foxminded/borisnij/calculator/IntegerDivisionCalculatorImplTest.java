@@ -15,8 +15,13 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class IntegerDivisionCalculatorTest {
+class IntegerDivisionCalculatorImplTest {
     IntegerDivisionCalculator divider;
+
+    @BeforeEach
+    void init() {
+        divider = new IntegerDivisionCalculatorImpl();
+    }
 
     static Stream<Arguments> testData() {
 
@@ -85,11 +90,6 @@ class IntegerDivisionCalculatorTest {
                                      new IntegerDivisionStep(12, 0, '\0')
                 ))
         );
-    }
-
-    @BeforeEach
-    void init() {
-        divider = new IntegerDivisionCalculatorImpl();
     }
 
     @ParameterizedTest

@@ -4,6 +4,7 @@ import com.foxminded.borisnij.calculator.IntegerDivisionCalculator;
 import com.foxminded.borisnij.dto.IntegerDivisionSolutionDTO;
 import com.foxminded.borisnij.dto.IntegerDivisionStepDTO;
 import com.foxminded.borisnij.model.IntegerDivisionStep;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class IntegerDivisionSolutionServiceTest {
+public class IntegerDivisionSolutionServiceImplTest {
 
     @Mock
     IntegerDivisionCalculator integerDivisionCalculator;
@@ -53,15 +54,16 @@ public class IntegerDivisionSolutionServiceTest {
 
     @ParameterizedTest
     @MethodSource("provideTestData")
-    void testCreateSolutionForOperands(int dividend,
-                                       int divisor,
-                                       List<IntegerDivisionStep> mockSteps,
-                                       String expectedDividend,
-                                       String expectedDivisor,
-                                       String expectedQuotient,
-                                       String expectedFirstDivisorMultiple,
-                                       int expectedPartialDividendLength,
-                                       List<IntegerDivisionStepDTO> expectedDivisionStepsDTO) {
+    @DisplayName("when provided with valid input should return expected DTO")
+    void whenProvidedWithValidInputShouldReturnExpectedDto(int dividend,
+                                                           int divisor,
+                                                           List<IntegerDivisionStep> mockSteps,
+                                                           String expectedDividend,
+                                                           String expectedDivisor,
+                                                           String expectedQuotient,
+                                                           String expectedFirstDivisorMultiple,
+                                                           int expectedPartialDividendLength,
+                                                           List<IntegerDivisionStepDTO> expectedDivisionStepsDTO) {
 
         when(integerDivisionCalculator.calculateDivisionStepsForOperands(dividend, divisor)).thenReturn(mockSteps);
 

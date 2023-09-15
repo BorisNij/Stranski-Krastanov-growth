@@ -2,6 +2,7 @@ package com.foxminded.borisnij.formatter;
 
 import com.foxminded.borisnij.dto.IntegerDivisionStepDTO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,7 +12,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IntegerDivisionSolutionFormatterTest {
+public class IntegerDivisionSolutionFormatterImplTest {
 
     private IntegerDivisionSolutionFormatter formatter;
 
@@ -75,21 +76,19 @@ public class IntegerDivisionSolutionFormatterTest {
                                       "0",
                                       1,
                                       List.of(new IntegerDivisionStepDTO("1672", "2300")),
-                                      "_1672|2300\n" +
-                                              " 0   |-\n" +
-                                              " -   |0\n" +
-                                              " 1672"));
+                                      "_1672|2300\n" + " 0   |-\n" + " -   |0\n" + " 1672"));
     }
 
     @ParameterizedTest
     @MethodSource("formatTestCases")
-    void testFormat(String dividend,
-                    String divisor,
-                    String quotient,
-                    String firstDivisorMultiple,
-                    int firstPartialDividendLength,
-                    List<IntegerDivisionStepDTO> divisionSteps,
-                    String expectedFormattedSolution) {
+    @DisplayName("when provided with valid input should return expected string")
+    void whenProvidedWithValidInputShouldReturnExpectedString(String dividend,
+                                                              String divisor,
+                                                              String quotient,
+                                                              String firstDivisorMultiple,
+                                                              int firstPartialDividendLength,
+                                                              List<IntegerDivisionStepDTO> divisionSteps,
+                                                              String expectedFormattedSolution) {
 
         String actualFormattedSolution = formatter.format(dividend,
                                                           divisor,

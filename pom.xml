@@ -77,7 +77,7 @@
                     <configuration>
                         <archive>
                             <manifest>
-                                <mainClass>com.foxminded.borisnij.Task3IntegralDiv</mainClass>
+                                <mainClass>com.foxminded.borisnij.Task3IntegerDivision</mainClass>
                             </manifest>
                         </archive>
                     </configuration>

@@ -7,7 +7,7 @@ import com.foxminded.borisnij.dto.IntegerDivisionSolutionDTO;
 import com.foxminded.borisnij.formatter.IntegerDivisionSolutionFormatterImpl;
 import com.foxminded.borisnij.service.IntegerDivisionSolutionServiceImpl;
 
-public class Task3IntegralDiv {
+public class Task3IntegerDivision {
     public static void main(String[] args) {
         if (args.length != 2) {
             throw new IllegalArgumentException("The number of arguments cannot differ from 2");
