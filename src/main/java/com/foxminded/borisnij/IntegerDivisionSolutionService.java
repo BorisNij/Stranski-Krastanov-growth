@@ -10,27 +10,6 @@ public class IntegerDivisionSolutionService {
         this.integerCalculator = integerCalculator;
     }
 
-    private static int getFirstPartialDividendLength(String quotient, int firstPartialDividend) {
-        return !quotient.equals("0") ? countDigits(firstPartialDividend) : 1;
-    }
-
-    private static String getQuotientFromDivisionSteps(List<IntegerDivisionStep> divisionSteps) {
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0, divisionStepsSize = divisionSteps.size(); i < divisionStepsSize - 1; i++) {
-            sb.append(divisionSteps.get(i).getQuotientDigit());
-        }
-        return sb.toString();
-    }
-
-    private static int countDigits(int inputInteger) {
-        return String.valueOf(inputInteger).length();
-    }
-
-    private static String intToString(int integer) {
-        return String.valueOf(integer);
-    }
-
     public IntegerDivisionSolutionDTO createSolutionForOperands(int dividend, int divisor) {
         final List<IntegerDivisionStep> divisionSteps = integerCalculator.calculateDivisionStepsForOperands(dividend,
                                                                                                             divisor);
@@ -52,5 +31,25 @@ public class IntegerDivisionSolutionService {
     private IntegerDivisionStepDTO divisionStepToDTO(IntegerDivisionStep divisionStep) {
         return new IntegerDivisionStepDTO(intToString(divisionStep.getPartialDividend()),
                                           intToString(divisionStep.getDivisorMultiple()));
+    }
+
+    private static int getFirstPartialDividendLength(String quotient, int firstPartialDividend) {
+        return !quotient.equals("0") ? countDigits(firstPartialDividend) : 1;
+    }
+
+    private static String getQuotientFromDivisionSteps(List<IntegerDivisionStep> divisionSteps) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0, divisionStepsSize = divisionSteps.size(); i < divisionStepsSize - 1; i++) {
+            sb.append(divisionSteps.get(i).getQuotientDigit());
+        }
+        return sb.toString();
+    }
+
+    private static int countDigits(int inputInteger) {
+        return String.valueOf(inputInteger).length();
+    }
+
+    private static String intToString(int integer) {
+        return String.valueOf(integer);
     }
 }
