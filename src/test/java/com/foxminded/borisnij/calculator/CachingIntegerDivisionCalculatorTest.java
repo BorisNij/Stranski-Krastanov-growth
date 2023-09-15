@@ -1,5 +1,6 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.calculator;
 
+import com.foxminded.borisnij.model.IntegerDivisionStep;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

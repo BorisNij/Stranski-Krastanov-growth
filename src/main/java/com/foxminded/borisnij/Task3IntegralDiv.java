@@ -1,5 +1,12 @@
 package com.foxminded.borisnij;
 
+import com.foxminded.borisnij.calculator.CachingIntegerDivisionCalculator;
+import com.foxminded.borisnij.calculator.IntegerDivisionCalculator;
+import com.foxminded.borisnij.calculator.IntegerDivisionStepCache;
+import com.foxminded.borisnij.dto.IntegerDivisionSolutionDTO;
+import com.foxminded.borisnij.formatter.IntegerDivisionSolutionFormatter;
+import com.foxminded.borisnij.service.IntegerDivisionSolutionService;
+
 public class Task3IntegralDiv {
     public static void main(String[] args) {
         if (args.length != 2) {

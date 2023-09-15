@@ -1,5 +1,9 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.service;
 
+import com.foxminded.borisnij.calculator.IntegerDivisionCalculator;
+import com.foxminded.borisnij.dto.IntegerDivisionSolutionDTO;
+import com.foxminded.borisnij.dto.IntegerDivisionStepDTO;
+import com.foxminded.borisnij.model.IntegerDivisionStep;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

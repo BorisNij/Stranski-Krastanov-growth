@@ -1,4 +1,4 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.dto;
 
 import java.util.Objects;
 

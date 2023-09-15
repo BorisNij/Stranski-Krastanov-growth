@@ -1,5 +1,6 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.formatter;
 
+import com.foxminded.borisnij.dto.IntegerDivisionStepDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

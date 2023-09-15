@@ -1,4 +1,6 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.calculator;
+
+import com.foxminded.borisnij.model.IntegerDivisionStep;
 
 import java.util.Collections;
 import java.util.HashMap;

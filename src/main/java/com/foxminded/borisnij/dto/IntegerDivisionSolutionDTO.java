@@ -1,4 +1,6 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.dto;
+
+import com.foxminded.borisnij.formatter.IntegerDivisionSolutionFormatter;
 
 import java.util.List;
 import java.util.Objects;

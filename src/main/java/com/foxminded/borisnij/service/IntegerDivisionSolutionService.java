@@ -1,4 +1,9 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.service;
+
+import com.foxminded.borisnij.calculator.IntegerDivisionCalculator;
+import com.foxminded.borisnij.dto.IntegerDivisionSolutionDTO;
+import com.foxminded.borisnij.dto.IntegerDivisionStepDTO;
+import com.foxminded.borisnij.model.IntegerDivisionStep;
 
 import java.util.List;
 import java.util.stream.Collectors;

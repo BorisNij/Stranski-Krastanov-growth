@@ -1,4 +1,6 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.formatter;
+
+import com.foxminded.borisnij.dto.IntegerDivisionStepDTO;
 
 import java.util.List;
 import java.util.Objects;

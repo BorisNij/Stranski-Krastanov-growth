@@ -1,4 +1,4 @@
-package com.foxminded.borisnij;
+package com.foxminded.borisnij.model;
 
 import java.util.Objects;
 
