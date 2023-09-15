@@ -20,39 +20,6 @@ public class IntegerDivisionSolutionDTO {
         this.divisionSteps = builder.divisionSteps;
     }
 
-    public String formatWithFormatter(IntegerDivisionSolutionFormatter solutionFormatter) {
-        return solutionFormatter.format(this.dividend,
-                                        this.divisor,
-                                        this.quotient,
-                                        this.firstDivisorMultiple,
-                                        this.firstPartialDividendLength,
-                                        this.divisionSteps);
-    }
-
-    public String getDividend() {
-        return dividend;
-    }
-
-    public String getDivisor() {
-        return divisor;
-    }
-
-    public String getQuotient() {
-        return quotient;
-    }
-
-    public String getFirstDivisorMultiple() {
-        return firstDivisorMultiple;
-    }
-
-    public int getFirstPartialDividendLength() {
-        return firstPartialDividendLength;
-    }
-
-    public List<IntegerDivisionStepDTO> getDivisionSteps() {
-        return divisionSteps;
-    }
-
     public static class Builder {
 
         private String dividend;
@@ -111,5 +78,38 @@ public class IntegerDivisionSolutionDTO {
         }
 
 
+    }
+
+    public String formatWithFormatter(IntegerDivisionSolutionFormatter solutionFormatter) {
+        return solutionFormatter.format(this.dividend,
+                                        this.divisor,
+                                        this.quotient,
+                                        this.firstDivisorMultiple,
+                                        this.firstPartialDividendLength,
+                                        this.divisionSteps);
+    }
+
+    public String getDividend() {
+        return dividend;
+    }
+
+    public String getDivisor() {
+        return divisor;
+    }
+
+    public String getQuotient() {
+        return quotient;
+    }
+
+    public String getFirstDivisorMultiple() {
+        return firstDivisorMultiple;
+    }
+
+    public int getFirstPartialDividendLength() {
+        return firstPartialDividendLength;
+    }
+
+    public List<IntegerDivisionStepDTO> getDivisionSteps() {
+        return divisionSteps;
     }
 }
