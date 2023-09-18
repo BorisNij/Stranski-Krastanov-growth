@@ -35,7 +35,7 @@ public class IntegerDivisionSolutionFormatterImplTest {
                                               " 76   |----\n" +
                                               " --   |1038\n" +
                                               " _29\n" +
-                                              "  0\n" +
+                                              "   0\n" +
                                               "  --\n" +
                                               " _294\n" +
                                               "  228\n" +
@@ -76,7 +76,29 @@ public class IntegerDivisionSolutionFormatterImplTest {
                                       "0",
                                       1,
                                       List.of(new IntegerDivisionStepDTO("1672", "2300")),
-                                      "_1672|2300\n" + " 0   |-\n" + " -   |0\n" + " 1672"));
+                                      "_1672|2300\n" + " 0   |-\n" + " -   |0\n" + " 1672"),
+                         Arguments.of("23456",
+                                      "7",
+                                      "3350",
+                                      "21",
+                                      2,
+                                      List.of(new IntegerDivisionStepDTO("24", "21"),
+                                              new IntegerDivisionStepDTO("35", "35"),
+                                              new IntegerDivisionStepDTO("06", "0"),
+                                              new IntegerDivisionStepDTO("6", "0")),
+                                      "_23456|7\n" +
+                                              " 21   |----\n" +
+                                              " --   |3350\n" +
+                                              " _24\n" +
+                                              "  21\n" +
+                                              "  --\n" +
+                                              "  _35\n" +
+                                              "   35\n" +
+                                              "   --\n" +
+                                              "   _06\n" +
+                                              "     0\n" +
+                                              "    --\n" +
+                                              "     6"));
     }
 
     @ParameterizedTest

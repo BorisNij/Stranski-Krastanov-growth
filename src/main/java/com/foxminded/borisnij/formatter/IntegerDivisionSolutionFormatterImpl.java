@@ -114,7 +114,11 @@ public class IntegerDivisionSolutionFormatterImpl implements IntegerDivisionSolu
                                repeatChar(paddingSymbol, stepPaddingWidth - 1),
                                subtractionSign,
                                stepPartialDividend);
-            appendSolutionLine(solutionBodyJoiner, repeatChar(paddingSymbol, stepPaddingWidth), stepDivisorMultiple);
+            appendSolutionLine(solutionBodyJoiner,
+                               repeatChar(paddingSymbol,
+                                          stepPaddingWidth +
+                                                  (stepPartialDividend.length() - stepDivisorMultiple.length())),
+                               stepDivisorMultiple);
             appendSolutionLine(solutionBodyJoiner,
                                repeatChar(paddingSymbol, stepPaddingWidth),
                                horizontalSeparator.repeat(stepPartialDividend.length()));
