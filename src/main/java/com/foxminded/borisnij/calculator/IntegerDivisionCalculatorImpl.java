@@ -19,20 +19,9 @@ public class IntegerDivisionCalculatorImpl implements IntegerDivisionCalculator 
     private static int findHighestDecimalPositionMultiplier(int integer) {
         int highestDecimalPositionMultiplier = 1;
 
-        if (integer >= 1_000_000) {
-            highestDecimalPositionMultiplier = 1_000_000;
-        } else if (integer >= 100_000) {
-            highestDecimalPositionMultiplier = 100_000;
-        } else if (integer >= 10_000) {
-            highestDecimalPositionMultiplier = 10_000;
-        } else if (integer >= 1_000) {
-            highestDecimalPositionMultiplier = 1_000;
-        } else if (integer >= 100) {
-            highestDecimalPositionMultiplier = 100;
-        } else if (integer >= 10) {
-            highestDecimalPositionMultiplier = 10;
+        for (int i = 1, digitCount = (int) Math.log10(integer) + 1; i < digitCount; i++) {
+            highestDecimalPositionMultiplier *= 10;
         }
-
         return highestDecimalPositionMultiplier;
     }
 
