@@ -49,7 +49,23 @@ public class IntegerDivisionSolutionServiceImplTest {
                                       "0",
                                       "0",
                                       1,
-                                      List.of(new IntegerDivisionStepDTO("1672", "0"))));
+                                      List.of(new IntegerDivisionStepDTO("1672", "0"))),
+                         Arguments.of(23456,
+                                      7,
+                                      List.of(new IntegerDivisionStep(23, 21, '3'),
+                                              new IntegerDivisionStep(24, 21, '3'),
+                                              new IntegerDivisionStep(35, 35, '5'),
+                                              new IntegerDivisionStep(6, 0, '0'),
+                                              new IntegerDivisionStep(6, 0, '\0')),
+                                      "23456",
+                                      "7",
+                                      "3350",
+                                      "21",
+                                      2,
+                                      List.of(new IntegerDivisionStepDTO("24", "21"),
+                                              new IntegerDivisionStepDTO("35", "35"),
+                                              new IntegerDivisionStepDTO("06", "0"),
+                                              new IntegerDivisionStepDTO("6", "0"))));
     }
 
     @ParameterizedTest

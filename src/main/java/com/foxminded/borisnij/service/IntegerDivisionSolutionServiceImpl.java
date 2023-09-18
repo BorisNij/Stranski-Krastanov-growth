@@ -7,6 +7,7 @@ import com.foxminded.borisnij.model.IntegerDivisionStep;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class IntegerDivisionSolutionServiceImpl implements IntegerDivisionSolutionService {
     private final IntegerDivisionCalculator integerCalculator;
@@ -39,9 +40,8 @@ public class IntegerDivisionSolutionServiceImpl implements IntegerDivisionSoluti
     public IntegerDivisionSolutionDTO createSolutionForOperands(int dividend, int divisor) {
         final List<IntegerDivisionStep> divisionSteps = integerCalculator.calculateDivisionStepsForOperands(dividend,
                                                                                                             divisor);
-        final List<IntegerDivisionStepDTO> solutionSteps = divisionSteps.stream()
-                .skip(1)
-                .map(this::divisionStepToDTO)
+        final List<IntegerDivisionStepDTO> solutionSteps = IntStream.range(1, divisionSteps.size())
+                .mapToObj(i -> divisionStepToDTO(divisionSteps.get(i), divisionSteps.get(i - 1)))
                 .collect(Collectors.toList());
         final String quotient = getQuotientFromDivisionSteps(divisionSteps);
         final IntegerDivisionStep firstStep = divisionSteps.get(0);
@@ -54,8 +54,12 @@ public class IntegerDivisionSolutionServiceImpl implements IntegerDivisionSoluti
                 .build();
     }
 
-    private IntegerDivisionStepDTO divisionStepToDTO(IntegerDivisionStep divisionStep) {
-        return new IntegerDivisionStepDTO(intToString(divisionStep.getPartialDividend()),
-                                          intToString(divisionStep.getDivisorMultiple()));
+    private IntegerDivisionStepDTO divisionStepToDTO(IntegerDivisionStep currentDivisionStep,
+                                                     IntegerDivisionStep previousDivisionStep) {
+        final String partialDividendString;
+        if (previousDivisionStep.getPartialDividend() != previousDivisionStep.getDivisorMultiple())
+            partialDividendString = intToString(currentDivisionStep.getPartialDividend());
+        else partialDividendString = "0" + intToString(currentDivisionStep.getPartialDividend());
+        return new IntegerDivisionStepDTO(partialDividendString, intToString(currentDivisionStep.getDivisorMultiple()));
     }
 }
