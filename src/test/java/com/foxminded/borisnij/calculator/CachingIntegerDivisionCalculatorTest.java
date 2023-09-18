@@ -20,14 +20,10 @@ import static org.mockito.Mockito.*;
 public class CachingIntegerDivisionCalculatorTest {
 
     @InjectMocks
-    private CachingIntegerDivisionCalculator childCachingCalculator;
+    private CachingIntegerDivisionCalculator cachingCalculator;
 
     @Mock
     private IntegerDivisionStepCache stepCache;
-
-    @Mock
-    private IntegerDivisionCalculator parentNonCachingCalculator;
-
 
     @Test
     @DisplayName("when calculating division steps with cache hit cached steps should be returned")
@@ -38,10 +34,9 @@ public class CachingIntegerDivisionCalculatorTest {
                                                               new IntegerDivisionStep(0, 0, '\0'));
         when(stepCache.getIntegerDivisionStepsForOperands(dividend, divisor)).thenReturn(cachedSteps);
 
-        List<IntegerDivisionStep> actualSteps = childCachingCalculator.calculateDivisionStepsForOperands(dividend,
-                                                                                                         divisor);
+        List<IntegerDivisionStep> actualSteps = cachingCalculator.calculateDivisionStepsForOperands(dividend,
+                                                                                                    divisor);
 
-        verify(parentNonCachingCalculator, never()).calculateDivisionStepsForOperands(anyInt(), anyInt());
         verify(stepCache, times(1)).getIntegerDivisionStepsForOperands(dividend, divisor);
         verify(stepCache, never()).addIntegerDivisionStepsForOperands(anyInt(), anyInt(), anyList());
         assertEquals(cachedSteps, actualSteps);
@@ -56,14 +51,13 @@ public class CachingIntegerDivisionCalculatorTest {
                                                               new IntegerDivisionStep(0, 0, '\0'));
         when(stepCache.getIntegerDivisionStepsForOperands(dividend, divisor)).thenReturn(cachedSteps);
 
-        List<IntegerDivisionStep> actualSteps1 = childCachingCalculator.calculateDivisionStepsForOperands(dividend,
-                                                                                                          divisor);
-        List<IntegerDivisionStep> actualSteps2 = childCachingCalculator.calculateDivisionStepsForOperands(dividend,
-                                                                                                          divisor);
-        List<IntegerDivisionStep> actualSteps3 = childCachingCalculator.calculateDivisionStepsForOperands(dividend,
-                                                                                                          divisor);
+        List<IntegerDivisionStep> actualSteps1 = cachingCalculator.calculateDivisionStepsForOperands(dividend,
+                                                                                                     divisor);
+        List<IntegerDivisionStep> actualSteps2 = cachingCalculator.calculateDivisionStepsForOperands(dividend,
+                                                                                                     divisor);
+        List<IntegerDivisionStep> actualSteps3 = cachingCalculator.calculateDivisionStepsForOperands(dividend,
+                                                                                                     divisor);
 
-        verify(parentNonCachingCalculator, never()).calculateDivisionStepsForOperands(anyInt(), anyInt());
         verify(stepCache, times(3)).getIntegerDivisionStepsForOperands(dividend, divisor);
         verify(stepCache, never()).addIntegerDivisionStepsForOperands(anyInt(), anyInt(), anyList());
         assertEquals(cachedSteps, actualSteps1);
@@ -82,16 +76,15 @@ public class CachingIntegerDivisionCalculatorTest {
         List<IntegerDivisionStep> expectedSteps = Arrays.asList(new IntegerDivisionStep(20, 20, '5'),
                                                                 new IntegerDivisionStep(0, 0, '\0'));
 
-        List<IntegerDivisionStep> actualSteps = childCachingCalculator.calculateDivisionStepsForOperands(dividend,
-                                                                                                         divisor);
+        List<IntegerDivisionStep> actualSteps = cachingCalculator.calculateDivisionStepsForOperands(dividend,
+                                                                                                    divisor);
         assertFalse(stepCache.isEmpty());
         when(stepCache.getIntegerDivisionStepsForOperands(dividend, divisor)).thenReturn(actualSteps);
         assertEquals(expectedSteps, actualSteps);
-        List<IntegerDivisionStep> actualSteps2 = childCachingCalculator.calculateDivisionStepsForOperands(dividend,
-                                                                                                          divisor);
+        List<IntegerDivisionStep> actualSteps2 = cachingCalculator.calculateDivisionStepsForOperands(dividend,
+                                                                                                     divisor);
         assertEquals(expectedSteps, actualSteps2);
         verify(stepCache, times(2)).getIntegerDivisionStepsForOperands(dividend, divisor);
         verify(stepCache, times(1)).addIntegerDivisionStepsForOperands(dividend, divisor, expectedSteps);
-//        verify(parentNonCachingCalculator, times(1)).calculateDivisionStepsForOperands(dividend, divisor); // <-- cannot get this to pass, don't know why
     }
 }
