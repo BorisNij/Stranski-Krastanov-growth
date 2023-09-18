@@ -32,4 +32,11 @@ public class IntegerDivisionStepDTO {
     public int hashCode() {
         return Objects.hash(partialDividend, divisorMultiple);
     }
+
+    @Override
+    public String toString() {
+        return String.format("\n{partialDividend=%s\ndivisorMultiple=%s}",
+                             partialDividend,
+                             divisorMultiple);
+    }
 }
